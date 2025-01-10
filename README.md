@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Authentication Overview
 
-## Getting Started
+This project uses Firebase for authentication. Below is an overview of how the authentication process works, including the API endpoints and their responses.
 
-First, run the development server:
+## Google Authentication
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Frontend
+
+1. The user clicks the "Login With Google" button.
+2. The `handleGoogleAuth` function is triggered, which uses Firebase's `signInWithPopup` method to authenticate the user with Google.
+3. Upon successful authentication, the user's ID token is retrieved and sent to the backend via the `/api/storeToken` endpoint.
+
+### Backend
+
+#### `/api/storeToken`
+
+- **Method**: POST
+- **Request Body**: `{ accessToken: string }`
+- **Response**: 
+  - Success: `{ success: true }`
+  - Sets a cookie named `accessToken` with the token value, which is HTTP-only, has a `sameSite` policy of `strict`, and expires in 1 week.
+
+#### `/api/verifyToken`
+
+- **Method**: POST
+- **Request Headers**: Includes the `accessToken` cookie.
+- **Response**:
+  - Success: `{ uid: string, success: true }` with status `200`
+  - Failure: `{ message: "Unauthorized", success: false }` with status `401`
+
+## Protected Routes
+
+- The `ProtectedRoute` component is used to wrap any component that requires authentication.
+- It sends a request to `/api/verifyToken` to verify the user's token.
+- If the token is valid, the child components are rendered.
+- If the token is invalid or missing, the user is redirected to the login page.
+
+### Example Usage
+
+```jsx
+import ProtectedRoute from "@/components/protectedRoute";
+
+function Dashboard() {
+  return (
+    <ProtectedRoute>
+      <div>Welcome to your dashboard!</div>
+    </ProtectedRoute>
+  );
+}
+
+export default Dashboard;
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Important Notes
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Ensure that the Firebase configuration is correctly set up in the project.
+- The backend should have access to Firebase Admin SDK to verify ID tokens.
+- The `accessToken` cookie should be handled securely to prevent XSS attacks.
