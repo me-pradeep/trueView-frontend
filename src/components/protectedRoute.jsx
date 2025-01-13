@@ -14,10 +14,10 @@ const ProtectedRoute = ({ children }) => {
         .then(() => {
           setIsLoading(false);
         })
-        .catch(() => {
+        .catch((err) => {
           router.push("/login");
         });
-  }, [router]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

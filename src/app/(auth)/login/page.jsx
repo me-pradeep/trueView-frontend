@@ -15,7 +15,7 @@ function page() {
       />
       <div className="text-center text-4xl font-bold w-[50%] max-xl:w-[70%] max-lg:w-[80%] max-lg:text-3xl max-md:w-[90%] max-md:text-2xl">
         Discover, <span className="text-red-400">Review</span>, and{" "}
-        <span className="text-red-400">Rate</span> People from Anywhere, at Any
+        <span className="text-red-400">Rate</span> People <span className="text-red-400">Anonymously</span>, at Any
         Time.
       </div>
       <Google />
