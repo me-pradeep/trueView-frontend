@@ -8,6 +8,7 @@ function Profile() {
     <div className="w-[60%] max-lg:w-[80%] max-md:w-[100%] bg-white rounded-lg">
       <div className="flex m-4 gap-4">
         <Image
+          priority
           src={photoURL}
           height={90}
           width={90}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import algoliasearch from "algoliasearch/lite";
 import { Autocomplete, TextField } from "@mui/material";
+import Image from "next/image";
 
 // Initialize Algolia client
 const searchClient = algoliasearch(
@@ -40,10 +41,12 @@ const Search = () => {
       renderOption={(props, option) => (
         <li {...props} key={option.objectID}>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <img
+            <Image
               src={option.photoURL}
               alt={option.username}
-              style={{ width: 30, height: 30, borderRadius: "50%" }}
+              height={40}
+              width={40}
+              className="rounded-full"
             />
             <span style={{ marginLeft: 10 }}>{option.username}</span>
           </div>
