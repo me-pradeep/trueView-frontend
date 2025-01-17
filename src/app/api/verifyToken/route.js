@@ -11,7 +11,7 @@ export async function POST(request) {
 
     try {
         const decodedToken = await auth.verifyIdToken(accessToken);
-        return NextResponse.json({ uid: decodedToken.uid, success: true }, { status: 200 });
+        return NextResponse.json({ email: decodedToken.email, success: true }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ message: "Unauthorized", success: false }, { status: 401 });
     }

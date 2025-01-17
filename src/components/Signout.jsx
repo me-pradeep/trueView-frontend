@@ -1,12 +1,13 @@
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../lib/firebaseconfig";
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 function Signout() {
   const auth = getAuth(app);
-  const router=useRouter();
+  const router = useRouter();
   async function handleSignout() {
     try {
       await signOut(auth);
@@ -17,15 +18,23 @@ function Signout() {
       );
       localStorage.removeItem("username");
       localStorage.removeItem("photoURL");
-      router.push("/login")
+      localStorage.removeItem("bio");
+      router.push("/login");
     } catch (error) {
       alert(error.message);
     }
   }
 
   return (
-    <Button onClick={handleSignout} type="button" variant="contained" color="primary" sx={{ height: 40 }}>
-      Logout
+    <Button
+      onClick={handleSignout}
+      type="button"
+      variant="contained"
+      color="primary"
+      sx={{ height: 40, gap: 1 }}
+    >
+      <LogoutIcon />
+      <span className="max-md:hidden">Logout</span>
     </Button>
   );
 }

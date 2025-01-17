@@ -24,12 +24,11 @@ export default function Google() {
         { email: user.email }
       );
       if (res.data.success) {
-        setUser({username:res.data.username,photoURL:user.photoURL})
         router.push("/"
         );
       } else {
         setUser({email:user.email,photoURL:user.photoURL})
-        router.push("/getusername"
+        router.push("/getusernameandbio"
         );
       }
     });
