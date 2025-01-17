@@ -65,7 +65,7 @@ const UsernameForm = () => {
             validate: checkUsernameAvailability,
           })}
           error={!!errors.username}
-          helperText={errors.username ? errors.username.message : ""}
+          helperText={errors.username ? errors.username.message : "Please give real name so that others can find you easily"}
         />
         <TextField
           id="bio"
@@ -83,7 +83,7 @@ const UsernameForm = () => {
             },
           })}
           error={!!errors.bio}
-          helperText={errors.bio ? errors.bio.message : "Word limit 30-120"}
+          helperText={errors.bio ? errors.bio.message : "Characters limit 30-120"}
         />
       </div>
 

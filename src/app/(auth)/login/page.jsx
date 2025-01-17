@@ -1,8 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import Google from "@/components/google";
+import Link from "next/link";
 
 function page() {
+
   return (
     <>
       <Image
@@ -19,6 +21,8 @@ function page() {
         Time.
       </div>
       <Google />
+
+      <Link className="bg-red-400 p-3 text-white rounded-xl font-bold" href="/">Go to Home Page</Link>
     </>
   );
 }

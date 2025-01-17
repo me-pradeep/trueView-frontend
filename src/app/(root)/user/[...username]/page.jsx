@@ -1,12 +1,10 @@
-"use client";
+import React from 'react'
+import Rating from '@/components/rating'
 
-import React from "react";
-import { useParams } from "next/navigation";
+function page() {
+  return (
+    <div><Rating/></div>
+  )
+}
 
-const UserPage = () => {
-  const { username } = useParams();
-
-  return <div>Username: {username}</div>;
-};
-
-export default UserPage;
+export default page

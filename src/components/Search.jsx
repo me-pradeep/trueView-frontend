@@ -28,7 +28,7 @@ const Search = () => {
 
   useEffect(() => {
     if (selectedUser) {
-      const username=selectedUser.username;
+      let username=selectedUser.username;
       router.push(`/user/${username}`);
     }
   }, [selectedUser]);
