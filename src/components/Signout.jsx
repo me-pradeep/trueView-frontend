@@ -12,7 +12,7 @@ function Signout() {
     try {
       await signOut(auth);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/removeAccessToken`,
+        "/api/removeToken",
         {}, // No request body
         { withCredentials: true }
       );
