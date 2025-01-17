@@ -10,10 +10,10 @@ export const UserProvider = ({ children }) => {
     photoURL: "",
     email: "",
     bio: "",
-    numOfRatingsGiven:0,
-    numOfRatingsReceived:0,
-    overallRating:0,
-    ratingCount:0,
+    numOfRatingsGiven: 0,
+    numOfRatingsReceived: 0,
+    overallRating: 0,
+    ratingCount: 0,
   });
 
   return (
@@ -22,3 +22,6 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
+
+

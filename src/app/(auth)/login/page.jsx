@@ -1,10 +1,25 @@
+"use client"
 import Image from "next/image";
 import React from "react";
 import Google from "@/components/google";
 import Link from "next/link";
+import axios from "axios";
+import { useEffect,useState } from "react";
 
 function page() {
 
+  const [isAuthenticated,setIsAuthenticated]=useState(false);
+
+  useEffect(() => {
+    axios
+      .post("/api/verifyToken")
+      .then(() => {
+        setIsAuthenticated(true)
+      })
+      .catch((err) => {
+        setIsAuthenticated(false)
+      });
+  }, []);
   return (
     <>
       <Image
@@ -23,6 +38,7 @@ function page() {
       <Google />
 
       <Link className="bg-red-400 p-3 text-white rounded-xl font-bold" href="/">Go to Home Page</Link>
+      <div>{isAuthenticated?"You are now authenticated Please click Go to Home page":"Please click login"}</div>
     </>
   );
 }
