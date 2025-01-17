@@ -11,15 +11,17 @@ function Signout() {
   async function handleSignout() {
     try {
       await signOut(auth);
-      await axios.post(
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/removeAccessToken`,
         {}, // No request body
         { withCredentials: true }
       );
-      localStorage.removeItem("username");
-      localStorage.removeItem("photoURL");
-      localStorage.removeItem("bio");
-      router.push("/login");
+      if (res.data.success) {
+        router.push("/login");
+      }
+      else{
+        console.log("cannot remove accessToken");
+      }
     } catch (error) {
       alert(error.message);
     }
