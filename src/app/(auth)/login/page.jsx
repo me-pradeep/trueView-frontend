@@ -1,27 +1,8 @@
-"use client";
 import Image from "next/image";
 import React from "react";
 import Google from "@/components/google";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 function page() {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    axios
-      .post("/api/verifyToken")
-      .then(() => {
-        setIsAuthenticated(true);
-        // router.push("/");
-      })
-      .catch((err) => {
-        setIsAuthenticated(false);
-      });
-  }, []);
-
   return (
     <>
       <Image
@@ -38,11 +19,6 @@ function page() {
         <span className="text-red-400">Anonymously</span>, at Any Time.
       </div>
       <Google />
-      <div className="text-center font-bold">
-        {isAuthenticated
-          ? "You are now authenticated Please click Go to Home page"
-          : "Please click login"}
-      </div>
     </>
   );
 }
