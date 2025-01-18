@@ -16,7 +16,7 @@ function NavigationBox() {
   const router=useRouter();
   const [value, setValue] = useState(pathname);
   return (
-    <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] border-y-2 overflow-x-auto bg-white">
+    <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] border-y-2 overflow-x-hidden bg-white max-md:overflow-x-auto">
       <Box sx={{ width:"100%",marginX:1}}>
         <BottomNavigation
           showLabels

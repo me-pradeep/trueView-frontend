@@ -1,39 +1,43 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "@/lib/firebaseconfig";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { UserContext } from "@/context";
-import { useContext } from "react";
 
 export default function Google() {
-  const {setUser}=useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const router = useRouter();
-  function handleGoogleAuth() {
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).then(async (result) => {
+
+  async function handleGoogleAuth() {
+    try {
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      user.getIdToken().then((token) => {
-        axios.post("/api/storeToken", { accessToken: token });
-      });
+
+      const token = await user.getIdToken();
+      await axios.post("/api/storeToken", { accessToken: token });
+
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkuser`,
         { email: user.email }
       );
+
       if (res.data.success) {
-        router.push("/"
-        );
-        router.refresh();
+        router.push("/");
       } else {
-        setUser({email:user.email,photoURL:user.photoURL})
-        router.push("/getusernameandbio"
-        );
+        setUser({ email: user.email, photoURL: user.photoURL });
+        router.push("/getusernameandbio");
       }
-    });
+    } catch (error) {
+      console.error("Error during Google Authentication:", error);
+    }
   }
+
   return (
     <button
       onClick={handleGoogleAuth}

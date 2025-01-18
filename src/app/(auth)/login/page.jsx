@@ -15,12 +15,13 @@ function page() {
       .post("/api/verifyToken")
       .then(() => {
         setIsAuthenticated(true);
-        router.push("/");
+        // router.push("/");
       })
       .catch((err) => {
         setIsAuthenticated(false);
       });
   }, []);
+
   return (
     <>
       <Image
