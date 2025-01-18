@@ -21,7 +21,7 @@ function page() {
       .catch((err) => {
         setIsAuthenticated(false);
       });
-  }, []);
+  }, [isAuthenticated]);
   return (
     <>
       <Image
