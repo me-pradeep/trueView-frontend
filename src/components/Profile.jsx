@@ -40,7 +40,7 @@ function Profile({ username }) {
   
   if (loading) {
     return (
-      <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] bg-white rounded-lg flex m-4 gap-4 p-4">
+      <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] bg-white rounded-lg flex gap-4 p-4">
         <Skeleton
           variant="circular"
           width={100}
@@ -70,7 +70,7 @@ function Profile({ username }) {
   } = user;
 
   return (
-    <div className="w-[80%] bg-white rounded-lg flex m-4 gap-4 p-4 max-lg:flex-col max-lg:w-full">
+    <div className="w-[80%] bg-white rounded-lg flex gap-4 p-4 max-lg:flex-col max-lg:w-full">
       <div className="flex gap-4 max-md:w-full">
         <div>
           <Image
