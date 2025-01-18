@@ -12,7 +12,7 @@ import CompareIcon from "@mui/icons-material/Compare";
 function NavigationBox() {
   const [value, setValue] = useState();
   return (
-    <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] border-y-2">
+    <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] border-y-2 overflow-x-auto">
       <Box sx={{ width:"100%"}}>
         <BottomNavigation
           showLabels
