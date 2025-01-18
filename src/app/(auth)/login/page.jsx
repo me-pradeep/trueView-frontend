@@ -2,7 +2,6 @@
 import Image from "next/image";
 import React from "react";
 import Google from "@/components/google";
-import Link from "next/link";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,7 +20,7 @@ function page() {
       .catch((err) => {
         setIsAuthenticated(false);
       });
-  }, [isAuthenticated]);
+  }, []);
   return (
     <>
       <Image

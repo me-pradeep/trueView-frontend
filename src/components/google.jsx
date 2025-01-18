@@ -26,6 +26,7 @@ export default function Google() {
       if (res.data.success) {
         router.push("/"
         );
+        router.refresh();
       } else {
         setUser({email:user.email,photoURL:user.photoURL})
         router.push("/getusernameandbio"
