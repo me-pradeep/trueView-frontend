@@ -80,12 +80,12 @@ function Profile({ username }) {
   return (
     <div className="w-[80%] bg-blue-500 rounded-lg flex justify-around gap-4 p-4 max-lg:flex-col max-lg:w-full">
       <div className="flex gap-4 max-md:w-full items-center">
-        <div>
+        <div className="min-h-[90px] min-w-[90px]">
           <Image
             priority
             src={photoURL}
-            height={100}
-            width={100}
+            height={90}
+            width={90}
             alt="userImage"
             className="rounded-full border-4 border-white shadow-lg"
           />
@@ -94,7 +94,7 @@ function Profile({ username }) {
           <div className="font-bold text-xl text-white w-fit">
             {displayUsername}
           </div>
-          <div className="text-white">{bio}</div>
+          <div className="text-white break-words m-1">{bio}</div>
         </div>
       </div>
       <div className="flex max-lg:w-full text-white justify-center gap-4 border-l-2 max-lg:border-l-0 max-lg:border-t-2 max-lg:pt-2 pl-4 max-md:pl-2 border-white items-center max-lg:justify-center">
