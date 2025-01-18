@@ -38,7 +38,8 @@ const UsernameForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const username = data.username.toUpperCase();
+    let username = data.username.toUpperCase();
+    username=username.trim().replace(/\s+/g, ' ');
     const bio = data.bio;
     if (email) {
       await axios.post(
