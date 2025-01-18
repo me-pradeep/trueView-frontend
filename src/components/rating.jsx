@@ -1,9 +1,24 @@
-import React from 'react'
+"use client"
+import React from 'react';
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
+import { useState } from 'react';
 
-function Rating() {
+function RatingComponent({parameterName}) {
+  const [value,setValue]=useState(0);
   return (
-    <div>rating</div>
-  )
+    <Box sx={{ '& > legend': { mt: 2 } }}>
+      <Typography component="legend">{parameterName}</Typography>
+      <Rating
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+          console.log(newValue);
+        }}
+      />
+    </Box>
+  );
 }
 
-export default Rating;
+export default RatingComponent;

@@ -5,7 +5,6 @@ import { UserContext } from "@/context";
 import { useEffect } from "react";
 import axios from "axios";
 import Profile from "@/components/Profile";
-import NavigationBox from "@/components/NavigationBox";
 
 function layout({ children }) {
   const { user, setUser } = useContext(UserContext);
@@ -51,11 +50,10 @@ function layout({ children }) {
 
   const { username } = user;
   return (
-    <>
+    <div className="w-full h-full flex flex-col overflow-y-auto items-center">
       <Profile username={username} />
-      <NavigationBox />
       {children}
-    </>
+    </div>
   );
 }
 

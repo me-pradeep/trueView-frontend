@@ -38,7 +38,7 @@ function NavigationBox() {
   };
 
   return (
-    <div className="w-[80%] max-lg:w-[80%] max-md:w-[100%] border-y-2 overflow-x-hidden bg-white max-md:overflow-x-auto">
+    <div className="w-full border-y-2 overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0 pb-4">
       <Box sx={{ width: "100%", marginX: 1 }}>
         <BottomNavigation
           showLabels

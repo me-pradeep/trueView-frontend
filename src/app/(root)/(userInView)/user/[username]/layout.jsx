@@ -1,16 +1,14 @@
 import React from "react";
 import Profile from "@/components/Profile";
-import NavigationBox from "@/components/NavigationBox";
 
-async function Layout({ params,children }) {
+async function Layout({ params, children }) {
   const { username } = await params;
   const decodedString = decodeURIComponent(username);
   return (
-    <>
-      <Profile username={decodedString}/>
-      <NavigationBox/>
+    <div className="w-full h-full flex flex-col overflow-y-auto items-center">
+      <Profile username={decodedString} />
       {children}
-    </>
+    </div>
   );
 }
 
