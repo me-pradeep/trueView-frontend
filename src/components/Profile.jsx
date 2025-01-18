@@ -90,21 +90,21 @@ function Profile({ username }) {
         </div>
       </div>
       <div className=" flex max-lg:w-full justify-center gap-4 border-l-2 max-lg:border-l-0 max-lg:border-t-2 max-lg:pt-2 pl-2 border-slate-400 items-center max-lg:justify-center">
-        <div className="flex flex-col items-center text-slate-400 font-semibold">
+        <div className="flex flex-col items-center font-semibold">
           {numOfRatingsGiven}
-          <div className="text-center">Total Ratings Given</div>
+          <div className="text-center text-slate-400">Total Ratings Given</div>
         </div>
-        <div className="flex flex-col items-center text-slate-400 font-semibold">
+        <div className="flex flex-col items-center font-semibold">
           {numOfRatingsReceived}
-          <div className="text-center">Total Ratings Received</div>
+          <div className="text-center text-slate-400">Total Ratings Received</div>
         </div>
-        <div className="flex flex-col items-center text-slate-400 font-semibold">
+        <div className="flex flex-col items-center font-semibold">
           {overallRating}/10
-          <div className="text-center">Your Average Rating</div>
+          <div className="text-center text-slate-400">Your Average Rating</div>
         </div>
-        <div className="flex flex-col items-center text-slate-400 font-semibold">
+        <div className="flex flex-col items-center font-semibold">
           {ratingCount}
-          <div className="text-center">Your Rating Count</div>
+          <div className="text-center text-slate-400">Your Rating Count</div>
         </div>
       </div>
     </div>
