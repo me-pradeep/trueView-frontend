@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import RatingComponent from "@/components/rating";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { SelectedUserContext, UserContext } from "@/context";
 import Switch from "@mui/material/Switch";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function Page() {
   const [checked, setChecked] = useState(false);
@@ -13,7 +15,6 @@ function Page() {
   const { user } = useContext(UserContext);
   const { userObjectId } = user;
   const { userObjectId: SelectedUserObjectId } = selectedUser;
-  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const [ratings, setRatings] = useState({
     Appearance: 0,
@@ -28,10 +29,13 @@ function Page() {
     Creative: 0,
   });
 
-  useEffect(() => {
-    const hasZeroRating = Object.values(ratings).some((rating) => rating === 0);//here .some() functions will return true if any of the rating is 0.
-    setIsSubmitDisabled(!checked || hasZeroRating);
-  }, [checked, ratings]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const checkIfAnyParameterIsEmpty = () => {
+    const hasZeroRating = Object.values(ratings).some((rating) => rating === 0);
+    return hasZeroRating;
+  };
 
   const handleEditingOnOff = (event) => {
     setChecked(event.target.checked);
@@ -45,6 +49,13 @@ function Page() {
   };
 
   const handleSubmit = async () => {
+    const isAnyParameterEmpty = checkIfAnyParameterIsEmpty();
+    if (isAnyParameterEmpty) {
+      setSnackbarMessage("Rating cannot be Zero for all parameters!");
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
       const ratedUserId = SelectedUserObjectId;
       const givenByUserId = userObjectId;
@@ -59,12 +70,14 @@ function Page() {
       );
 
       if (response.status === 200) {
-        alert("Rating submitted successfully!");
+        setSnackbarMessage("Rating submitted successfully!");
+        setOpenSnackbar(true);
         setChecked(false);
       }
     } catch (error) {
       console.error("Error submitting rating:", error);
-      alert("Error submitting rating. Please try again.");
+      setSnackbarMessage("Error submitting rating. Please try again.");
+      setOpenSnackbar(true);
     }
   };
 
@@ -88,7 +101,7 @@ function Page() {
         <Button
           variant="contained"
           onClick={handleSubmit}
-          disabled={isSubmitDisabled}
+          disabled={!checked}
         >
           Submit Rating
         </Button>
@@ -115,6 +128,16 @@ function Page() {
           />
         ))}
       </div>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity={checkIfAnyParameterIsEmpty() ? "error" : "success"} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
