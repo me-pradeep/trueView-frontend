@@ -11,6 +11,7 @@ function RatingComponent({parameterName}) {
     <Box sx={{ '& > legend': { mt: 2 } }}>
       <Typography component="legend">{parameterName}</Typography>
       <Rating
+        readOnly
         max={10}
         size="large"
         precision={0.5}

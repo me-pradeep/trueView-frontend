@@ -19,6 +19,7 @@ function Profile({ username }) {
         const userData = res.data.user;
 
         setUser({
+          userObjectId:userData._id,
           bio: userData.bio,
           username: userData.username,
           photoURL: userData.photoURL,
@@ -76,7 +77,7 @@ function Profile({ username }) {
     overallRating,
     ratingCount,
   } = user;
-
+  
   return (
     <div className="w-[80%] bg-blue-500 rounded-lg flex justify-around gap-4 p-4 max-lg:flex-col max-lg:w-full">
       <div className="flex gap-4 max-md:w-full items-center">
