@@ -4,14 +4,15 @@ import React, { useEffect, useState } from "react";
 import Profile from "@/components/Profile";
 import { UserContext } from "@/context";
 import { useContext } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter} from "next/navigation";
+import { useParams } from "next/navigation";
 import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
 
 function Layout({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const pathname = usePathname();
+  const params = useParams();
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -39,10 +40,8 @@ function Layout({ children }) {
           ratingCount: userData.ratingCount,
         });
 
-        const pathParts = pathname.split("/");
-        const encodedUsername = pathParts[pathParts.length - 1];
-        const decodedUsername = decodeURIComponent(encodedUsername);
-
+        const { username } = params;
+        const decodedUsername = decodeURIComponent(username);
         if (userData.username === decodedUsername) {
           router.push("/");
           setTimeout(() => {
@@ -58,11 +57,10 @@ function Layout({ children }) {
     };
 
     initializeUser();
-  }, [pathname, router, setUser]);
+  }, [params, router, setUser]);
 
-  const pathParts = pathname.split("/");
-  const encodedUsername = pathParts[pathParts.length - 1];
-  const decodedUsername = decodeURIComponent(encodedUsername);
+  const { username } = params;
+  const decodedUsername = decodeURIComponent(username);
 
   return (
     <div className="w-full h-full flex flex-col overflow-y-auto items-center">
