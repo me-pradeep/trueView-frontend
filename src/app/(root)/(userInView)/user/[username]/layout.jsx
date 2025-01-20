@@ -4,20 +4,24 @@ import React, { useEffect, useState } from "react";
 import Profile from "@/components/Profile";
 import { UserContext } from "@/context";
 import { useContext } from "react";
-import { useRouter} from "next/navigation";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
+import { SelectedUserContext } from "@/context";
 
 function Layout({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const params = useParams();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
+  const { setSelectedUser } = useContext(SelectedUserContext);
+
+  const decodedUsername = decodeURIComponent(params.username);
 
   useEffect(() => {
     const initializeUser = async () => {
       try {
+        // Fetch the logged-in user
         const tokenResponse = await axios.post("/api/verifyToken");
         const email = tokenResponse.data.email;
 
@@ -25,7 +29,6 @@ function Layout({ children }) {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
           { email }
         );
-
         const userData = userResponse.data.user;
 
         setUser({
@@ -40,27 +43,38 @@ function Layout({ children }) {
           ratingCount: userData.ratingCount,
         });
 
-        const { username } = params;
-        const decodedUsername = decodeURIComponent(username);
         if (userData.username === decodedUsername) {
           router.push("/");
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 800); //I putted timeout so that /user/[username] output don't show on screen and directly / route output comes.
         } else {
-          setIsLoading(false);
+          // Fetch the selected user's data
+          const selectedUserResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
+            { username: decodedUsername }
+          );
+          const selectedUserData = selectedUserResponse.data.user;
+
+          setSelectedUser({
+            userObjectId: selectedUserData._id,
+            bio: selectedUserData.bio,
+            username: selectedUserData.username,
+            photoURL: selectedUserData.photoURL,
+            numOfRatingsGiven: selectedUserData.numOfRatingsGiven,
+            numOfRatingsReceived: selectedUserData.numOfRatingsReceived,
+            overallRating: selectedUserData.overallRating,
+            email: selectedUserData.email,
+            ratingCount: selectedUserData.ratingCount,
+          });
         }
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error initializing user:", error);
+        console.error("Error initializing user:", error.message);
+        alert("An error occurred while fetching user details.");
         setIsLoading(false);
       }
     };
 
     initializeUser();
-  }, [params, router, setUser]);
-
-  const { username } = params;
-  const decodedUsername = decodeURIComponent(username);
+  }, [decodedUsername, router, setUser, setSelectedUser]);
 
   return (
     <div className="w-full h-full flex flex-col overflow-y-auto items-center">

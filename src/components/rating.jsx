@@ -1,24 +1,21 @@
 "use client"
-import React from 'react';
-import Box from '@mui/material/Box';
-import Rating from '@mui/material/Rating';
-import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import React from "react";
+import Box from "@mui/material/Box";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
 
-function RatingComponent({parameterName}) {
-  const [value,setValue]=useState(0);
+function RatingComponent({ parameterName, value, onRatingChange,isDisabled }) {
   return (
-    <Box sx={{ '& > legend': { mt: 2 } }}>
+    <Box sx={{ "& > legend": { mt: 2 } }}>
       <Typography component="legend">{parameterName}</Typography>
       <Rating
-        readOnly
         max={10}
         size="large"
+        disabled={isDisabled}
         precision={0.5}
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue);
-          console.log(newValue);
+          onRatingChange(parameterName, newValue);
         }}
       />
     </Box>

@@ -9,16 +9,24 @@ function page() {
         but share your <span className="text-red-700">username</span> to others so that they can rate you 😀
       </div>
       <div className="flex flex-wrap gap-10 items-center justify-center max-lg:gap-5">
-        <RatingComponent parameterName="Appearance" />
-        <RatingComponent parameterName="Intelligence" />
-        <RatingComponent parameterName="Humuor" />
-        <RatingComponent parameterName="ContributionToSociety" />
-        <RatingComponent parameterName="Ambitious" />
-        <RatingComponent parameterName="Sporty" />
-        <RatingComponent parameterName="Helpfullness" />
-        <RatingComponent parameterName="CommunicationSkills" />
-        <RatingComponent parameterName="Hardworking" />
-        <RatingComponent parameterName="Creative" />
+        {[
+          "Appearance",
+          "Intelligence",
+          "Humour",
+          "ContributionToSociety",
+          "Ambitious",
+          "Sporty",
+          "Helpfulness",
+          "CommunicationSkills",
+          "Hardworking",
+          "Creative",
+        ].map((param) => (
+          <RatingComponent
+            key={param}
+            parameterName={param}
+            isDisabled={true}
+          />
+        ))}
       </div>
     </div>
   );
