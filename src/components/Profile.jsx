@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext} from "react";
 import Image from "next/image";
 import axios from "axios";
 import { Skeleton } from "@mui/material";
+import { SelectedUserContext } from "@/context";
+
 
 function Profile({ username }) {
+  const { selectedUser} = useContext(SelectedUserContext);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
@@ -37,7 +40,7 @@ function Profile({ username }) {
     };
 
     fetchUserData();
-  }, [username]);
+  }, [username,selectedUser]);
 
   if (loading) {
     return (

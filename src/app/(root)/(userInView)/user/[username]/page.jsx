@@ -11,10 +11,12 @@ import Alert from "@mui/material/Alert";
 
 function Page() {
   const [checked, setChecked] = useState(false);
-  const { selectedUser } = useContext(SelectedUserContext);
+  const { selectedUser, setSelectedUser } = useContext(SelectedUserContext);
   const { user } = useContext(UserContext);
   const { userObjectId } = user;
   const { userObjectId: SelectedUserObjectId } = selectedUser;
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const [ratings, setRatings] = useState({
     Appearance: 0,
@@ -36,7 +38,7 @@ function Page() {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/getratings`,
           { ratedUser: SelectedUserObjectId, givenBy: userObjectId }
         );
-        const ratings=res.data.ratingData.ratings;
+        const ratings = res.data.ratingData.ratings;
         setRatings({
           Appearance: ratings.Appearance,
           Intelligence: ratings.Intelligence,
@@ -56,11 +58,8 @@ function Page() {
     fetchRatingData();
   }, [SelectedUserObjectId, userObjectId]);
 
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-
   const checkIfAnyParameterIsEmpty = () => {
-    const hasZeroRating = Object.values(ratings).some((rating) => rating === 0);
+    const hasZeroRating = Object.values(ratings).some((rating) => rating === (0||null));
     return hasZeroRating;
   };
 
@@ -68,16 +67,6 @@ function Page() {
     setChecked(event.target.checked);
   };
 
-  const calculateAverageandSumOfRating = (Rating) => {
-    const sumOfRating = Object.values(ratings).reduce(
-      (sum, value) => sum + value,
-      0
-    );
-    const numberOfRatings = Object.keys(ratings).length;
-    const averageRating = sumOfRating / numberOfRatings;
-
-    return { sumOfRating, averageRating };
-  };
   const handleRatingChange = (parameter, value) => {
     setRatings((prevRatings) => ({
       ...prevRatings,
@@ -88,36 +77,37 @@ function Page() {
   const handleSubmit = async () => {
     const isAnyParameterEmpty = checkIfAnyParameterIsEmpty();
     if (isAnyParameterEmpty) {
-      setSnackbarMessage("Rating cannot be Zero for all parameters!");
+      setSnackbarMessage("All parameter must have some rating!!");
       setOpenSnackbar(true);
-      return;
-    }
+    } else {
+      try {
+        const ratedUserId = SelectedUserObjectId;
+        const givenByUserId = userObjectId;
 
-    try {
-      const ratedUserId = SelectedUserObjectId;
-      const givenByUserId = userObjectId;
-      const sumAndAverage = calculateAverageandSumOfRating();
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/ratinguser`,
+          {
+            ratedUser: ratedUserId,
+            givenBy: givenByUserId,
+            ratings,
+          }
+        );
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/ratinguser`,
-        {
-          ratedUser: ratedUserId,
-          givenBy: givenByUserId,
-          ratings,
-          ratingAverage: sumAndAverage.averageRating,
-          ratingSum: sumAndAverage.sumOfRating,
+        if (response.status === 200) {
+          setSnackbarMessage("Rating submitted successfully!");
+          setSelectedUser((prevState) => ({
+            ...prevState,
+            numOfRatingsReceived: prevState.numOfRatingsReceived + 1,
+          }));
+
+          setOpenSnackbar(true);
+          setChecked(false);
         }
-      );
-
-      if (response.status === 200) {
-        setSnackbarMessage("Rating submitted successfully!");
+      } catch (error) {
+        console.error("Error submitting rating:", error);
+        setSnackbarMessage("Error submitting rating. Please try again.");
         setOpenSnackbar(true);
-        setChecked(false);
       }
-    } catch (error) {
-      console.error("Error submitting rating:", error);
-      setSnackbarMessage("Error submitting rating. Please try again.");
-      setOpenSnackbar(true);
     }
   };
 
@@ -168,6 +158,7 @@ function Page() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         onClose={() => setOpenSnackbar(false)}
       >
         <Alert
