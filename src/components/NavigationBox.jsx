@@ -9,7 +9,7 @@ import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import CommentIcon from "@mui/icons-material/Comment";
 import CompareIcon from "@mui/icons-material/Compare";
-import PeopleIcon from '@mui/icons-material/People';
+import PeopleIcon from "@mui/icons-material/People";
 
 function NavigationBox() {
   const pathname = usePathname();
@@ -40,12 +40,18 @@ function NavigationBox() {
   };
 
   return (
-    <div className="w-full border-y-2 overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0 pb-4">
-      <Box sx={{ width: "100%", marginX: 1 }}>
+    <div className="w-full border-y-2 overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0 pb-4 px-2">
+      <div className="w-fit">
         <BottomNavigation
           showLabels
           value={value}
           onChange={(event, newValue) => handleNavigation(newValue)}
+          sx={{
+            display: "flex",
+            overflowX: "auto",
+            flexWrap: "nowrap",
+            width: "100%",
+          }}
         >
           <BottomNavigationAction
             value="/"
@@ -54,7 +60,7 @@ function NavigationBox() {
           />
           <BottomNavigationAction
             value="/users"
-            label="users"
+            label="Users"
             icon={<PeopleIcon />}
           />
           <BottomNavigationAction
@@ -78,7 +84,7 @@ function NavigationBox() {
             icon={<CompareIcon />}
           />
         </BottomNavigation>
-      </Box>
+      </div>
     </div>
   );
 }
