@@ -9,6 +9,7 @@ import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import CommentIcon from "@mui/icons-material/Comment";
 import CompareIcon from "@mui/icons-material/Compare";
+import PeopleIcon from '@mui/icons-material/People';
 
 function NavigationBox() {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ function NavigationBox() {
     if (path.includes("/leaderboard")) return "/leaderboard";
     if (path.includes("/comments")) return "/comments";
     if (path.includes("/comparison")) return "/comparison";
+    if (path.includes("/users")) return "/users";
     return "/";
   };
 
@@ -49,6 +51,11 @@ function NavigationBox() {
             value="/"
             label="Rating"
             icon={<StarRateIcon />}
+          />
+          <BottomNavigationAction
+            value="/users"
+            label="users"
+            icon={<PeopleIcon />}
           />
           <BottomNavigationAction
             value="/insights"
