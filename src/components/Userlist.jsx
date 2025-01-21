@@ -15,6 +15,7 @@ function Userlist() {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setIsLoading(true);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getuserlist`,
         { currentPage }
