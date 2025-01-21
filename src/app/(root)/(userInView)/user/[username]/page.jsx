@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import RatingComponent from "@/components/rating";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { SelectedUserContext, UserContext } from "@/context";
 import Switch from "@mui/material/Switch";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function Page() {
   const [checked, setChecked] = useState(false);
@@ -29,6 +29,33 @@ function Page() {
     Creative: 0,
   });
 
+  useEffect(() => {
+    const fetchRatingData = async () => {
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/getratings`,
+          { ratedUser: SelectedUserObjectId, givenBy: userObjectId }
+        );
+        const ratings=res.data.ratingData.ratings;
+        setRatings({
+          Appearance: ratings.Appearance,
+          Intelligence: ratings.Intelligence,
+          Humour: ratings.Humour,
+          ContributionToSociety: ratings.ContributionToSociety,
+          Ambitious: ratings.Ambitious,
+          Sporty: ratings.Sporty,
+          Helpfulness: ratings.Helpfulness,
+          CommunicationSkills: ratings.CommunicationSkills,
+          Hardworking: ratings.Hardworking,
+          Creative: ratings.Creative,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRatingData();
+  }, [SelectedUserObjectId, userObjectId]);
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -41,6 +68,16 @@ function Page() {
     setChecked(event.target.checked);
   };
 
+  const calculateAverageandSumOfRating = (Rating) => {
+    const sumOfRating = Object.values(ratings).reduce(
+      (sum, value) => sum + value,
+      0
+    );
+    const numberOfRatings = Object.keys(ratings).length;
+    const averageRating = sumOfRating / numberOfRatings;
+
+    return { sumOfRating, averageRating };
+  };
   const handleRatingChange = (parameter, value) => {
     setRatings((prevRatings) => ({
       ...prevRatings,
@@ -59,6 +96,7 @@ function Page() {
     try {
       const ratedUserId = SelectedUserObjectId;
       const givenByUserId = userObjectId;
+      const sumAndAverage = calculateAverageandSumOfRating();
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/ratinguser`,
@@ -66,6 +104,8 @@ function Page() {
           ratedUser: ratedUserId,
           givenBy: givenByUserId,
           ratings,
+          ratingAverage: sumAndAverage.averageRating,
+          ratingSum: sumAndAverage.sumOfRating,
         }
       );
 
@@ -98,11 +138,7 @@ function Page() {
             {checked ? "Rating ON" : "Rating OFF"}
           </p>
         </div>
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          disabled={!checked}
-        >
+        <Button variant="contained" onClick={handleSubmit} disabled={!checked}>
           Submit Rating
         </Button>
       </div>
@@ -134,7 +170,11 @@ function Page() {
         autoHideDuration={3000}
         onClose={() => setOpenSnackbar(false)}
       >
-        <Alert onClose={() => setOpenSnackbar(false)} severity={checkIfAnyParameterIsEmpty() ? "error" : "success"} sx={{ width: '100%' }}>
+        <Alert
+          onClose={() => setOpenSnackbar(false)}
+          severity={checkIfAnyParameterIsEmpty() ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>
