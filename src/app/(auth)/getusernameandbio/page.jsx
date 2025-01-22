@@ -13,7 +13,7 @@ const checkUsernameAvailability = async (username) => {
   try {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkusernameavailibilty`,
-      { username }
+      { username },{withCredentials:true}
     );
 
     if (res.data.success) {
@@ -44,7 +44,7 @@ const UsernameForm = () => {
     if (email) {
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/createuser`,
-        { username, email, photoURL, bio }
+        { username, email, photoURL, bio },{withCredentials:true}
       );
       router.push("/");
     } else {

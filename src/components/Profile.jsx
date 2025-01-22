@@ -17,7 +17,7 @@ function Profile({ username }) {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-          { username }
+          { username },{withCredentials:true}
         );
         const userData = res.data.user;
 

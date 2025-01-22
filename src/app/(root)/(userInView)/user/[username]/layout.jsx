@@ -27,7 +27,7 @@ function Layout({ children }) {
 
         const userResponse = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-          { email }
+          { email },{withCredentials:true}
         );
         const userData = userResponse.data.user;
 
@@ -49,7 +49,7 @@ function Layout({ children }) {
           // Fetch the selected user's data
           const selectedUserResponse = await axios.post(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-            { username: decodedUsername }
+            { username: decodedUsername },{withCredentials:true}
           );
           const selectedUserData = selectedUserResponse.data.user;
 

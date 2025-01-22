@@ -17,7 +17,7 @@ function Userlist() {
     const fetchUsers = async () => {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getuserlist`,
-        { currentPage }
+        { currentPage },{withCredentials:true}
       );
       setUsers(response.data.users);
       setTotalPages(response.data.totalPages);

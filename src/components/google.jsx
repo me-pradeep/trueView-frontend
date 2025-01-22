@@ -27,7 +27,7 @@ export default function Google() {
 
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkuser`,
-        { email: user.email }
+        { email: user.email },{withCredentials:true}
       );
 
       if (res.data.success) {

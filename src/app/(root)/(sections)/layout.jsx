@@ -15,7 +15,7 @@ function layout({ children }) {
         const email = res.data.email;
         const res2 = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-          { email }
+          { email },{withCredentials:true}
         );
         const userData = res2.data.user;
 

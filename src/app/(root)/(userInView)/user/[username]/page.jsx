@@ -36,7 +36,7 @@ function Page() {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/getratings`,
-          { ratedUser: SelectedUserObjectId, givenBy: userObjectId }
+          { ratedUser: SelectedUserObjectId, givenBy: userObjectId },{withCredentials:true}
         );
         const ratings = res.data.ratingData.ratings;
         setRatings({
@@ -90,7 +90,7 @@ function Page() {
             ratedUser: ratedUserId,
             givenBy: givenByUserId,
             ratings,
-          }
+          },{withCredentials:true}
         );
 
         if (response.status === 200) {
