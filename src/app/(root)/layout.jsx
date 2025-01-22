@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import ProtectedRoute from "@/components/protectedRoute";
 import Image from "next/image";

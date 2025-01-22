@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     axios
       .post("/api/verifyToken")
-      .then(() => {
+      .then((res) => {
         setIsLoading(false);
       })
       .catch((err) => {

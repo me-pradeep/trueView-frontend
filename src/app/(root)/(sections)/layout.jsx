@@ -13,9 +13,16 @@ function layout({ children }) {
       try {
         const res = await axios.post("/api/verifyToken");
         const email = res.data.email;
+        const res1=await axios.post("/api/getToken");
+        const accessToken=res1.data.accessToken;
         const res2 = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-          { email },{withCredentials:true}
+          { email },{
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
         );
         const userData = res2.data.user;
 

@@ -1,3 +1,4 @@
+"use client"
 import Button from "@mui/material/Button";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../lib/firebaseconfig";

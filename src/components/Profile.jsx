@@ -6,7 +6,6 @@ import axios from "axios";
 import { Skeleton } from "@mui/material";
 import { SelectedUserContext } from "@/context";
 
-
 function Profile({ username }) {
   const { selectedUser} = useContext(SelectedUserContext);
   const [loading, setLoading] = useState(true);
@@ -15,9 +14,16 @@ function Profile({ username }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        const res1=await axios.post("/api/getToken");
+        const accessToken=res1.data.accessToken;
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-          { username },{withCredentials:true}
+          { username },{
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
         );
         const userData = res.data.user;
 

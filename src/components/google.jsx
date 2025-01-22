@@ -5,7 +5,7 @@ import { app } from "@/lib/firebaseconfig";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { UserContext } from "@/context";
+import { UserContext} from "@/context";
 import LinearProgress from "@mui/material/LinearProgress";
 
 export default function Google() {
@@ -27,7 +27,12 @@ export default function Google() {
 
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkuser`,
-        { email: user.email },{withCredentials:true}
+        { email: user.email },{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
 
       if (res.data.success) {
