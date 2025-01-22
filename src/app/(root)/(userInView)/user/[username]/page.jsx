@@ -34,9 +34,16 @@ function Page() {
   useEffect(() => {
     const fetchRatingData = async () => {
       try {
+        const res1=await axios.post("/api/getToken");
+        const accessToken=res1.data.accessToken;
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/getratings`,
-          { ratedUser: SelectedUserObjectId, givenBy: userObjectId },{withCredentials:true}
+          { ratedUser: SelectedUserObjectId, givenBy: userObjectId },{
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
         );
         const ratings = res.data.ratingData.ratings;
         setRatings({
@@ -59,8 +66,10 @@ function Page() {
   }, [SelectedUserObjectId, userObjectId]);
 
   const checkIfAnyParameterIsEmpty = () => {
-    const hasZeroRating = Object.values(ratings).some((rating) => rating === (0||null));
-    return hasZeroRating;
+    const hasZeroOrNullRating = Object.values(ratings).some(
+      (rating) => rating === 0 || rating === null
+    );
+    return hasZeroOrNullRating;
   };
 
   const handleEditingOnOff = (event) => {
@@ -84,13 +93,20 @@ function Page() {
         const ratedUserId = SelectedUserObjectId;
         const givenByUserId = userObjectId;
 
+        const res1=await axios.post("/api/getToken");
+        const accessToken=res1.data.accessToken;
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/ratinguser`,
           {
             ratedUser: ratedUserId,
             givenBy: givenByUserId,
             ratings,
-          },{withCredentials:true}
+          },{
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
         );
 
         if (response.status === 200) {

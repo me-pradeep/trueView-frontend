@@ -24,10 +24,16 @@ function Layout({ children }) {
         // Fetch the logged-in user
         const tokenResponse = await axios.post("/api/verifyToken");
         const email = tokenResponse.data.email;
-
+        const res1=await axios.post("/api/getToken");
+        const accessToken=res1.data.accessToken;
         const userResponse = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-          { email },{withCredentials:true}
+          { email },{
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
         );
         const userData = userResponse.data.user;
 
@@ -47,9 +53,16 @@ function Layout({ children }) {
           router.push("/");
         } else {
           // Fetch the selected user's data
+          const res1=await axios.post("/api/getToken");
+          const accessToken=res1.data.accessToken;
           const selectedUserResponse = await axios.post(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getUserInfo`,
-            { username: decodedUsername },{withCredentials:true}
+            { username: decodedUsername },{
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+              },
+              withCredentials: true,
+            }
           );
           const selectedUserData = selectedUserResponse.data.user;
 

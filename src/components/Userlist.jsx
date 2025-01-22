@@ -15,9 +15,17 @@ function Userlist() {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      const res1 = await axios.post("/api/getToken");
+      const accessToken = res1.data.accessToken;
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/getuserlist`,
-        { currentPage },{withCredentials:true}
+        { currentPage },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        }
       );
       setUsers(response.data.users);
       setTotalPages(response.data.totalPages);

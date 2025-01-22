@@ -11,9 +11,17 @@ import { useContext } from "react";
 
 const checkUsernameAvailability = async (username) => {
   try {
+    const res1 = await axios.post("/api/getToken");
+    const accessToken = res1.data.accessToken;
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkusernameavailibilty`,
-      { username },{withCredentials:true}
+      { username },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      }
     );
 
     if (res.data.success) {
@@ -39,12 +47,20 @@ const UsernameForm = () => {
 
   const onSubmit = async (data) => {
     let username = data.username.toUpperCase();
-    username=username.trim().replace(/\s+/g, ' ');
+    username = username.trim().replace(/\s+/g, " ");
     const bio = data.bio;
     if (email) {
+      const res1 = await axios.post("/api/getToken");
+      const accessToken = res1.data.accessToken;
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/createuser`,
-        { username, email, photoURL, bio },{withCredentials:true}
+        { username, email, photoURL, bio },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        }
       );
       router.push("/");
     } else {
@@ -66,7 +82,11 @@ const UsernameForm = () => {
             validate: checkUsernameAvailability,
           })}
           error={!!errors.username}
-          helperText={errors.username ? errors.username.message : "Please give real name so that others can find you easily"}
+          helperText={
+            errors.username
+              ? errors.username.message
+              : "Please give real name so that others can find you easily"
+          }
         />
         <TextField
           id="bio"
@@ -84,7 +104,9 @@ const UsernameForm = () => {
             },
           })}
           error={!!errors.bio}
-          helperText={errors.bio ? errors.bio.message : "Characters limit 30-120"}
+          helperText={
+            errors.bio ? errors.bio.message : "Characters limit 30-120"
+          }
         />
       </div>
 
