@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function POST() {
   const response = NextResponse.json({ success: true }, { status: 200 });
 
-  response.cookies.set("accessToken", "", {
+  response.cookies.set("codedAccessToken", "", {
     httpOnly: true,
-    secure: true,
-    path: "/",
-    sameSite: "None",
+    secure: process.env.NODE_ENV === "production",
+    path: "/", 
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     expires: new Date(0),
   });
 

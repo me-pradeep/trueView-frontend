@@ -1,16 +1,36 @@
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 export async function POST(request) {
-  const { accessToken } = await request.json();
-  const response = NextResponse.json({ success: true }, { status: 200 });
+  try {
+    const { accessToken } = await request.json();
 
-  response.cookies.set("accessToken", accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7,
-    path: "/",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
-});
+    if (!accessToken) {
+      return NextResponse.json(
+        { success: false, message: "Access token is required" },
+        { status: 400 }
+      );
+    }
 
-  return response;
+    const codedAccessToken = jwt.sign({ token: accessToken }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
+    const response = NextResponse.json({ success: true }, { status: 200 });
+
+    response.cookies.set("codedAccessToken", codedAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: "/",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Error in POST handler:", error.message);
+    return NextResponse.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
