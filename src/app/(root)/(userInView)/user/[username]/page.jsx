@@ -38,7 +38,7 @@ function Page() {
         const accessToken=res1.data.accessToken;
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/getratings`,
-          { ratedUser: SelectedUserObjectId, givenBy: userObjectId },{
+          { ratedUser: SelectedUserObjectId},{
             headers: {
               'Authorization': `Bearer ${accessToken}`,
             },
@@ -99,7 +99,6 @@ function Page() {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/ratinguser`,
           {
             ratedUser: ratedUserId,
-            givenBy: givenByUserId,
             ratings,
           },{
             headers: {

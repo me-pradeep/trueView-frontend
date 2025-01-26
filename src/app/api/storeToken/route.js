@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 
 export async function POST(request) {
   try {
@@ -11,13 +10,10 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-//jai shri ram
-    const codedAccessToken = jwt.sign({ token: accessToken }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "7d",
-    });
+    
     const response = NextResponse.json({ success: true }, { status: 200 });
 
-    response.cookies.set("codedAccessToken", codedAccessToken, {
+    response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 7, // 7 days

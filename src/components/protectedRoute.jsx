@@ -16,6 +16,7 @@ const ProtectedRoute = ({ children }) => {
       })
       .catch((err) => {
         router.push("/login");
+        console.log(err);
       });
   }, []);
 

@@ -38,7 +38,6 @@ function Layout({ children }) {
         const userData = userResponse.data.user;
 
         setUser({
-          userObjectId: userData._id,
           bio: userData.bio,
           username: userData.username,
           photoURL: userData.photoURL,
@@ -74,7 +73,6 @@ function Layout({ children }) {
             numOfRatingsGiven: selectedUserData.numOfRatingsGiven,
             numOfRatingsReceived: selectedUserData.numOfRatingsReceived,
             overallRating: selectedUserData.overallRating,
-            email: selectedUserData.email,
             ratingCount: selectedUserData.ratingCount,
           });
         }

@@ -11,17 +11,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-
-  async redirects() {
-    return [
-      {
-        source: "/(.*)",
-        has: [{ type: "protocol", value: "http" }],
-        permanent: true,
-        destination: "https://true-view-frontend.vercel.app/:path*",
-      },
-    ];
-  },
 };
 
 

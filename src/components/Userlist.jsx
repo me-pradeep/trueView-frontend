@@ -58,7 +58,7 @@ function Userlist() {
             onClick={() => {
               router.push(`/user/${user.username}`);
             }}
-            key={user._id}
+            key={user.username}
             className="w-80 flex gap-3 p-2 rounded-lg items-center bg-slate-100 cursor-pointer"
           >
             <Image

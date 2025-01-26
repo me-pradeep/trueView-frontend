@@ -7,7 +7,6 @@ export const SelectedUserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    userObjectId: null,
     username: "",
     photoURL: "",
     email: "",
@@ -30,7 +29,6 @@ export const SelectedUserProvider = ({ children }) => {
     userObjectId: null,
     username: "",
     photoURL: "",
-    email: "",
     bio: "",
     numOfRatingsGiven: 0,
     numOfRatingsReceived: 0,

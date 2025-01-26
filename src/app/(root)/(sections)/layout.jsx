@@ -33,7 +33,6 @@ function layout({ children }) {
           numOfRatingsGiven,
           numOfRatingsReceived,
           overallRating,
-          email: userEmail, // Renaming while destructuring to avoid shadowing
           ratingCount,
         } = userData;
 
@@ -44,7 +43,6 @@ function layout({ children }) {
           numOfRatingsGiven,
           numOfRatingsReceived,
           overallRating,
-          email: userEmail,
           ratingCount,
         });
       } catch (error) {
