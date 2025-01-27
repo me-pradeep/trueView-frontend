@@ -127,8 +127,8 @@ function Page() {
   };
 
   return (
-    <div className="w-[80%] max-lg:w-full flex items-center flex-col bg-white gap-y-5 border-blue-400 border-x-2 pb-3 rounded-lg">
-      <div className="pt-3 text-blue-700 font-bold text-center">
+    <div className="w-[80%] max-xl:w-full flex items-center flex-col bg-white gap-y-5 border-blue-400 border-x-2 pb-3 rounded-lg">
+      <div className="p-3 text-blue-700 font-bold text-center">
         Please be honest while rating 🥹. And yes, no one will know 🤫 the
         ratings you give.
       </div>
@@ -147,7 +147,7 @@ function Page() {
           Submit Rating
         </Button>
       </div>
-      <div className="flex flex-wrap gap-10 items-center justify-center max-lg:gap-5">
+      <div className="flex flex-wrap gap-10 items-center justify-center max-lg:gap-5 p-4">
         {[
           "Appearance",
           "Intelligence",

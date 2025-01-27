@@ -85,7 +85,7 @@ const Search = () => {
                     alt={option.username}
                     height={40}
                     width={40}
-                    className="rounded-full"
+                    className="rounded-full max-h-[40px]"
                     style={{ width: "auto", height: "auto" }}
                   />
                   <span style={{ marginLeft: 10 }}>{option.username}</span>
