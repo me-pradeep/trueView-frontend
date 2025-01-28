@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
 import { usePathname, useRouter } from "next/navigation";
 import InsightsIcon from "@mui/icons-material/Insights";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
@@ -9,6 +8,8 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import CommentIcon from "@mui/icons-material/Comment";
 import CompareIcon from "@mui/icons-material/Compare";
 import PeopleIcon from "@mui/icons-material/People";
+import HomeIcon from "@mui/icons-material/Home";
+import Link from "next/link";
 
 function NavigationBox() {
   const pathname = usePathname();
@@ -38,59 +39,69 @@ function NavigationBox() {
     router.push(targetPath);
   };
 
-  const buttonStyles = (path) => ({
-    backgroundColor: value === path ? "#e0e0e0" : "transparent",
-    fontWeight: value === path ? "bold" : "normal",
-    width: "100%",
-    color: value === path ? "#2471ed" : "#757575",
-    padding:"16px 0"
-  });
-
   return (
-    <div className="w-full border-y-2 flex justify-center overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0">
-      <div className="w-[80%] flex p-4 justify-around max-xl:w-full">
-        <Button
+    <div className="w-full border-t-2 flex justify-center overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0">
+      <div className="w-[80%] flex p-4 justify-around max-xl:w-full items-center">
+        
+        {/* Rating Button */}
+        <button
           onClick={() => handleNavigation("/")}
-          startIcon={<StarRateIcon />}
-          sx={buttonStyles("/")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
         >
-          <div className="max-lg:hidden">Rating</div>
-        </Button>
-        <Button
+          <StarRateIcon />
+          <span className="max-lg:hidden">Rating</span>
+        </button>
+
+        {/* Users Button */}
+        <button
           onClick={() => handleNavigation("/users")}
-          startIcon={<PeopleIcon />}
-          sx={buttonStyles("/users")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/users" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
         >
-          <div className="max-lg:hidden">Users</div>
-        </Button>
-        <Button
+          <PeopleIcon />
+          <span className="max-lg:hidden">Users</span>
+        </button>
+
+        {/* Insights Button */}
+        <button
           onClick={() => handleNavigation("/insights")}
-          startIcon={<InsightsIcon />}
-          sx={buttonStyles("/insights")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/insights" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
         >
-          <div className="max-lg:hidden">Insights</div>
-        </Button>
-        <Button
+          <InsightsIcon />
+          <span className="max-lg:hidden">Insights</span>
+        </button>
+
+        {/* Home Button */}
+        <Link href="/" className="bg-blue-600 rounded-full h-12 w-12 flex items-center justify-center shrink-0 my-1">
+          <HomeIcon className="text-white text-3xl" />
+        </Link>
+
+        {/* Leaderboard Button */}
+        <button
           onClick={() => handleNavigation("/leaderboard")}
-          startIcon={<LeaderboardIcon />}
-          sx={buttonStyles("/leaderboard")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/leaderboard" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
         >
-          <div className="max-lg:hidden">Leaderboard</div>
-        </Button>
-        <Button
+          <LeaderboardIcon />
+          <span className="max-lg:hidden">Leaderboard</span>
+        </button>
+
+        {/* Comments Button */}
+        <button
           onClick={() => handleNavigation("/comments")}
-          startIcon={<CommentIcon />}
-          sx={buttonStyles("/comments")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/comments" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
         >
-          <div className="max-lg:hidden">Comments</div>
-        </Button>
-        <Button
+          <CommentIcon />
+          <span className="max-lg:hidden">Comments</span>
+        </button>
+
+        {/* Comparison Button */}
+        <button
           onClick={() => handleNavigation("/comparison")}
-          startIcon={<CompareIcon />}
-          sx={buttonStyles("/comparison")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/comparison" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
         >
-          <div className="max-lg:hidden">Comparison</div>
-        </Button>
+          <CompareIcon />
+          <span className="max-lg:hidden">Comparison</span>
+        </button>
+
       </div>
     </div>
   );
