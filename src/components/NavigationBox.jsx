@@ -41,7 +41,7 @@ function NavigationBox() {
 
   return (
     <div className="w-full border-t-2 flex justify-center overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0">
-      <div className="w-[80%] flex p-4 justify-around max-xl:w-full items-center">
+      <div className="w-[80%] flex p-4 justify-around max-xl:w-full items-center max-md:gap-2">
         
         {/* Rating Button */}
         <button
