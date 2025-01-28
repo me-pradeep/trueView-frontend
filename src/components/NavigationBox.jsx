@@ -73,7 +73,7 @@ function NavigationBox() {
         >
           <div className="max-lg:hidden">Insights</div>
         </Button>
-        <Link className="h-16 m-3" href="/">
+        <Link className="h-16 mx-3" href="/">
           <Fab color="primary" aria-label="add">
             <HomeIcon />
           </Fab>
