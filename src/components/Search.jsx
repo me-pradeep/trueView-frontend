@@ -62,7 +62,7 @@ const Search = () => {
   };
 
   return (
-    <div>
+    <>
       <Button variant="outlined" onClick={handleClickOpen} sx={{ gap: 1 }}>
         <SearchIcon />
         <span className="max-md:hidden">Search Users</span>
@@ -103,7 +103,7 @@ const Search = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 };
 

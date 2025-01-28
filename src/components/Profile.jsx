@@ -5,6 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import { Skeleton } from "@mui/material";
 import { SelectedUserContext } from "@/context";
+import EditProfile from "./EditProfile";
 
 function Profile({ username }) {
   const { selectedUser } = useContext(SelectedUserContext);
@@ -36,7 +37,6 @@ function Profile({ username }) {
           numOfRatingsGiven: userData.numOfRatingsGiven,
           numOfRatingsReceived: userData.numOfRatingsReceived,
           overallRating: userData.overallRating,
-          email: userData.email,
           ratingCount: userData.ratingCount,
         });
 
@@ -103,8 +103,9 @@ function Profile({ username }) {
             />
           </div>
           <div className="w-[90%] max-md:w-[70%] flex gap-2 flex-col">
-            <div className="font-bold text-xl text-white w-fit">
+            <div className="font-bold text-xl text-white w-fit gap-x-2 flex items-center flex-wrap">
               {displayUsername}
+              <EditProfile /> 
             </div>
             <div className="text-white break-words m-1">{bio}</div>
           </div>

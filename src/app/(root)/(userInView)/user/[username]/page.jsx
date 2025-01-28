@@ -34,32 +34,35 @@ function Page() {
   useEffect(() => {
     const fetchRatingData = async () => {
       try {
-        const res1=await axios.post("/api/getToken");
-        const accessToken=res1.data.accessToken;
+        const res1 = await axios.post("/api/getToken");
+        const accessToken = res1.data.accessToken;
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/getratings`,
-          { ratedUser: SelectedUserObjectId},{
+          { ratedUser: SelectedUserObjectId },
+          {
             headers: {
-              'Authorization': `Bearer ${accessToken}`,
+              Authorization: `Bearer ${accessToken}`,
             },
             withCredentials: true,
           }
         );
-        const ratings = res.data.ratingData.ratings;
-        setRatings({
-          Appearance: ratings.Appearance,
-          Intelligence: ratings.Intelligence,
-          Humour: ratings.Humour,
-          ContributionToSociety: ratings.ContributionToSociety,
-          Ambitious: ratings.Ambitious,
-          Sporty: ratings.Sporty,
-          Helpfulness: ratings.Helpfulness,
-          CommunicationSkills: ratings.CommunicationSkills,
-          Hardworking: ratings.Hardworking,
-          Creative: ratings.Creative,
-        });
+        if (res.data.success == true) {
+          const ratings = res.data.ratingData.ratings;
+          setRatings({
+            Appearance: ratings.Appearance,
+            Intelligence: ratings.Intelligence,
+            Humour: ratings.Humour,
+            ContributionToSociety: ratings.ContributionToSociety,
+            Ambitious: ratings.Ambitious,
+            Sporty: ratings.Sporty,
+            Helpfulness: ratings.Helpfulness,
+            CommunicationSkills: ratings.CommunicationSkills,
+            Hardworking: ratings.Hardworking,
+            Creative: ratings.Creative,
+          });
+        }
       } catch (error) {
-        //jai shri ram..iska jagah ka use debugging mein karunga..
+        console.log(error.response.data.message);
       }
     };
     fetchRatingData();
@@ -91,16 +94,17 @@ function Page() {
     } else {
       try {
         const ratedUserId = SelectedUserObjectId;
-        const res1=await axios.post("/api/getToken");
-        const accessToken=res1.data.accessToken;
+        const res1 = await axios.post("/api/getToken");
+        const accessToken = res1.data.accessToken;
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rating/ratinguser`,
           {
             ratedUser: ratedUserId,
             ratings,
-          },{
+          },
+          {
             headers: {
-              'Authorization': `Bearer ${accessToken}`,
+              Authorization: `Bearer ${accessToken}`,
             },
             withCredentials: true,
           }
@@ -171,7 +175,7 @@ function Page() {
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         onClose={() => setOpenSnackbar(false)}
       >
         <Alert

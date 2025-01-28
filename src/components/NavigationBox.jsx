@@ -71,7 +71,7 @@ function NavigationBox() {
         </button>
 
         {/* Home Button */}
-        <Link href="/" className="bg-blue-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0 my-1">
+        <Link href="/" className="bg-blue-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0 my-1 active:opacity-60">
           <HomeIcon className="text-white text-3xl" />
         </Link>
 

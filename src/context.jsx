@@ -9,7 +9,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     username: "",
     photoURL: "",
-    email: "",
     bio: "",
     numOfRatingsGiven: 0,
     numOfRatingsReceived: 0,
