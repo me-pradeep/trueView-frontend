@@ -9,9 +9,6 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import CommentIcon from "@mui/icons-material/Comment";
 import CompareIcon from "@mui/icons-material/Compare";
 import PeopleIcon from "@mui/icons-material/People";
-import Fab from "@mui/material/Fab";
-import HomeIcon from "@mui/icons-material/Home";
-import Link from "next/link";
 
 function NavigationBox() {
   const pathname = usePathname();
@@ -46,12 +43,12 @@ function NavigationBox() {
     fontWeight: value === path ? "bold" : "normal",
     width: "100%",
     color: value === path ? "#2471ed" : "#757575",
-    padding: "16px 0",
+    padding:"16px 0"
   });
 
   return (
     <div className="w-full border-y-2 flex justify-center overflow-hidden bg-white max-md:overflow-x-auto sticky bottom-0">
-      <div className="w-[80%] flex p-4 justify-around max-xl:w-full items-center">
+      <div className="w-[80%] flex p-4 justify-around max-xl:w-full">
         <Button
           onClick={() => handleNavigation("/")}
           startIcon={<StarRateIcon />}
@@ -73,11 +70,6 @@ function NavigationBox() {
         >
           <div className="max-lg:hidden">Insights</div>
         </Button>
-        <Link className="h-16 mx-3" href="/">
-          <Fab color="primary" aria-label="add">
-            <HomeIcon />
-          </Fab>
-        </Link>
         <Button
           onClick={() => handleNavigation("/leaderboard")}
           startIcon={<LeaderboardIcon />}
