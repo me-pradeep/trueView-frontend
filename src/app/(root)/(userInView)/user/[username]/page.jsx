@@ -127,7 +127,7 @@ function Page() {
   };
 
   return (
-    <div className="w-[80%] max-xl:w-full flex items-center flex-col bg-white gap-y-5 border-blue-400 border-x-2 pb-3 rounded-lg">
+    <div className="w-[80%] max-xl:w-full flex items-center flex-col bg-white gap-y-2 border-blue-400 border-x-2 pb-3 rounded-lg">
       <div className="p-3 text-blue-700 font-bold text-center">
         Please be honest while rating 🥹. And yes, no one will know 🤫 the
         ratings you give.

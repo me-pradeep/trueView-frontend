@@ -48,7 +48,7 @@ function Userlist() {
   }
 
   return (
-    <div className="w-[80%] max-lg:w-full h-fit flex flex-col items-center bg-white pb-4">
+    <div className="w-[80%] max-xl:w-full h-fit flex flex-col items-center bg-white pb-4">
       <h1 className="font-bold text-2xl p-4 text-blue-600">
         Users You May know
       </h1>
