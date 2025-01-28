@@ -59,7 +59,7 @@ function Page() {
           Creative: ratings.Creative,
         });
       } catch (error) {
-        console.log(error);
+        //jai shri ram..iska jagah ka use debugging mein karunga..
       }
     };
     fetchRatingData();
@@ -91,8 +91,6 @@ function Page() {
     } else {
       try {
         const ratedUserId = SelectedUserObjectId;
-        const givenByUserId = userObjectId;
-
         const res1=await axios.post("/api/getToken");
         const accessToken=res1.data.accessToken;
         const response = await axios.post(
