@@ -46,7 +46,7 @@ function NavigationBox() {
         {/* Rating Button */}
         <button
           onClick={() => handleNavigation("/")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/" ? "bg-gray-200 font-bold text-blue-500" : "text-gray-500"} hover:bg-gray-100`}
         >
           <StarRateIcon />
           <span className="max-lg:hidden">Rating</span>
@@ -55,7 +55,7 @@ function NavigationBox() {
         {/* Users Button */}
         <button
           onClick={() => handleNavigation("/users")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/users" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/users" ? "bg-gray-200 font-bold text-blue-500" : "text-gray-500"} hover:bg-gray-100`}
         >
           <PeopleIcon />
           <span className="max-lg:hidden">Users</span>
@@ -71,14 +71,14 @@ function NavigationBox() {
         </button>
 
         {/* Home Button */}
-        <Link href="/" className="bg-blue-600 rounded-full h-12 w-12 flex items-center justify-center shrink-0 my-1">
+        <Link href="/" className="bg-blue-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0 my-1">
           <HomeIcon className="text-white text-3xl" />
         </Link>
 
         {/* Leaderboard Button */}
         <button
           onClick={() => handleNavigation("/leaderboard")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/leaderboard" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/leaderboard" ? "bg-gray-200 font-bold text-blue-500" : "text-gray-500"} hover:bg-gray-100`}
         >
           <LeaderboardIcon />
           <span className="max-lg:hidden">Leaderboard</span>
@@ -87,7 +87,7 @@ function NavigationBox() {
         {/* Comments Button */}
         <button
           onClick={() => handleNavigation("/comments")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/comments" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/comments" ? "bg-gray-200 font-bold text-blue-500" : "text-gray-500"} hover:bg-gray-100`}
         >
           <CommentIcon />
           <span className="max-lg:hidden">Comments</span>
@@ -96,7 +96,7 @@ function NavigationBox() {
         {/* Comparison Button */}
         <button
           onClick={() => handleNavigation("/comparison")}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/comparison" ? "bg-gray-200 font-bold text-blue-600" : "text-gray-600"} hover:bg-gray-100`}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md ${value === "/comparison" ? "bg-gray-200 font-bold text-blue-500" : "text-gray-500"} hover:bg-gray-100`}
         >
           <CompareIcon />
           <span className="max-lg:hidden">Comparison</span>
