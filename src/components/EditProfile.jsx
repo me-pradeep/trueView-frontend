@@ -7,9 +7,10 @@ import {
   Dialog,
   DialogContent,
   Button,
-  DialogActions
+  DialogActions,
 } from "@mui/material";
 import Image from "next/image";
+import axios from "axios";
 
 export default function EditProfile() {
   const [profileEditable, setProfileEditable] = useState(true);
@@ -18,6 +19,9 @@ export default function EditProfile() {
   const [bio, setBio] = useState("");
   const pathname = usePathname();
   const { user } = useContext(UserContext);
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const booleanValueForEdit = pathname.startsWith("/user/") ? false : true;
@@ -27,6 +31,7 @@ export default function EditProfile() {
   const handleClickOpen = () => {
     setUsername(user.username);
     setBio(user.bio);
+    setPreview(user.photoURL);
     setOpen(true);
   };
 
@@ -34,8 +39,39 @@ export default function EditProfile() {
     setOpen(false);
   };
 
-  const handleEditing = () => {
-    console.log(username,bio);
+  const handleUpload = async () => {
+    if (!image) return;
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("file", image);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (data.url) {
+      try {
+        const res = await axios.post("/api/getToken");
+        const accessToken = res.data.accessToken;
+        const res1=await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/updateuserinfo`,
+          { username, bio, photoURL: data.url },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            withCredentials: true,
+          }
+        ); 
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("Upload failed");
+    }
+
+    setLoading(false);
     setOpen(false);
   };
 
@@ -61,14 +97,26 @@ export default function EditProfile() {
           Edit Profile
         </div>
         <DialogContent className="overflow-x-hidden flex gap-2 flex-col items-center">
-          <Image
-            priority
-            src={user.photoURL}
-            height={90}
-            width={90}
-            alt="userImage"
-            className="rounded-full border-4 border-white shadow-lg min-h-[90px] min-w-[90px]"
+          <input
+            type="file"
+            onChange={(event) => {
+              const file = event.target.files[0];
+              if (file) {
+                setImage(file);
+                setPreview(URL.createObjectURL(file));
+              }
+            }}
           />
+          <div className="w-[90px] h-[90px] overflow-hidden rounded-full border-4 border-white shadow-lg">
+            <Image
+              priority
+              src={preview}
+              alt="userImage"
+              width={90}
+              height={90}
+              className="object-cover"
+            />
+          </div>
           <TextField
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -87,9 +135,9 @@ export default function EditProfile() {
             variant="filled"
           />
         </DialogContent>
-        <DialogActions >
-          <Button onClick={handleEditing} color="primary">
-            Save
+        <DialogActions>
+          <Button onClick={handleUpload} disabled={loading} color="primary">
+            {loading ? "Saving..." : "Save"}
           </Button>
         </DialogActions>
       </Dialog>
