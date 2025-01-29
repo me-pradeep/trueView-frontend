@@ -13,8 +13,15 @@ export async function POST(req) {
     const file = formData.get("file");
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return NextResponse.json({ error: "No file provided",success:false }, { status: 400 });
     }
+
+     // Check the MIME type of the uploaded file to ensure it is an image
+     const mimeType = file.type;
+
+     if (!mimeType.startsWith("image/")) {
+       return NextResponse.json({ message: "Only image files are allowed",success:false }, { status: 400 });
+     }
 
     // Convert file into a buffer
     const bytes = await file.arrayBuffer();
@@ -35,8 +42,8 @@ export async function POST(req) {
       ]
     });
 
-    return NextResponse.json({ url: result.secure_url }, { status: 200 });
+    return NextResponse.json({ url: result.secure_url,success:true }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message,success:false }, { status: 500 });
   }
 }

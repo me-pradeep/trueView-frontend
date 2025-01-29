@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { usePathname } from "next/navigation";
 import { UserContext } from "@/context";
@@ -22,10 +22,10 @@ export default function EditProfile() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const profileRef = useRef(null);
 
   useEffect(() => {
-    const booleanValueForEdit = pathname.startsWith("/user/") ? false : true;
-    setProfileEditable(booleanValueForEdit);
+    setProfileEditable(!pathname.startsWith("/user/"));
   }, [pathname]);
 
   const handleClickOpen = () => {
@@ -40,37 +40,36 @@ export default function EditProfile() {
   };
 
   const handleUpload = async () => {
-    if (!image) return;
     setLoading(true);
+    let imgURL;
+    try {
+      if (image) {
+        const formData = new FormData();
+        formData.append("file", image);
+        const res = await axios.post("/api/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
-    const formData = new FormData();
-    formData.append("file", image);
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await res.json();
-    if (data.url) {
-      try {
-        const res = await axios.post("/api/getToken");
-        const accessToken = res.data.accessToken;
-        const res1=await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/updateuserinfo`,
-          { username, bio, photoURL: data.url },
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-            withCredentials: true,
-          }
-        ); 
-      } catch (error) {
-        console.log(error);
+        if (res.data.success) {
+          imgURL = res.data.url;
+        }
       }
-    } else {
-      alert("Upload failed");
-    }
 
+      const res2 = await axios.post("/api/getToken");
+      const accessToken = res2.data.accessToken;
+
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/updateuserinfo`,
+        { username, bio, photoURL: imgURL || user.photoURL },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          withCredentials: true,
+        }
+      );
+      alert(res.data.message);
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
     setOpen(false);
   };
@@ -99,15 +98,26 @@ export default function EditProfile() {
         <DialogContent className="overflow-x-hidden flex gap-2 flex-col items-center">
           <input
             type="file"
+            ref={profileRef}
+            accept="image/*"
+            className="hidden"
             onChange={(event) => {
               const file = event.target.files[0];
-              if (file) {
+              if (file && file.type.startsWith("image/")) {
                 setImage(file);
                 setPreview(URL.createObjectURL(file));
+              } else {
+                alert("Only image files are allowed.");
               }
             }}
           />
-          <div className="w-[90px] h-[90px] overflow-hidden rounded-full border-4 border-white shadow-lg">
+
+          <div
+            onClick={() => {
+              profileRef.current.click();
+            }}
+            className="w-[90px] h-[90px] overflow-hidden rounded-full border-4 border-white shadow-lg cursor-pointer"
+          >
             <Image
               priority
               src={preview}
