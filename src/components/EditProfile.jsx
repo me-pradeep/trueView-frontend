@@ -180,7 +180,7 @@ export default function EditProfile({ setProfileUpdated }) {
                 required: "Username is required",
                 validate: async (value) =>
                   await checkUsernameAvailability(
-                    value,
+                    value.trim().replace(/\s+/g, " "),
                     user.username,
                     accessToken
                   ),

@@ -13,7 +13,7 @@ import { Authcontext } from "@/context/Authcontext";
 
 const UsernameForm = () => {
   const { setUser, user } = useContext(UserContext);
-  const {accessToken}=useContext(Authcontext);
+  const { accessToken } = useContext(Authcontext);
   const router = useRouter();
   const { email, photoURL } = user;
 
@@ -38,7 +38,7 @@ const UsernameForm = () => {
           withCredentials: true,
         }
       );
-      await axios.post("/api/storeToken", { accessToken});
+      await axios.post("/api/storeToken", { accessToken });
       router.push("/");
     } else {
       alert("Invalid Process");
@@ -57,7 +57,11 @@ const UsernameForm = () => {
           {...register("username", {
             required: "Username is required",
             validate: async (value) =>
-              await checkUsernameAvailability(value, user.username,accessToken),
+              await checkUsernameAvailability(
+                value.trim().replace(/\s+/g, " "),
+                user.username,
+                accessToken
+              ),
             maxLength: {
               value: 14,
               message: "Username cannot exceed 14 characters",
