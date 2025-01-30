@@ -78,6 +78,7 @@ export default function EditProfile({setProfileUpdated}) {
       setUser((previous)=>({...previous,username:newUsername,bio:data.bio,photoURL:imgURL}));
       setProfileUpdated((previous)=>(!previous));
     } catch (error) {
+      alert("cannot update profile");
       console.error("Error updating profile:", error);
     }
     setLoading(false);
