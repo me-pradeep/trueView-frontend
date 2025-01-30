@@ -8,31 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context";
 import { useContext } from "react";
-
-const checkUsernameAvailability = async (username) => {
-  try {
-    const res1 = await axios.post("/api/getToken");
-    const accessToken = res1.data.accessToken;
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkusernameavailibilty`,
-      { username },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      }
-    );
-
-    if (res.data.success) {
-      return true;
-    } else {
-      return "Username is already taken.";
-    }
-  } catch (error) {
-    return "Error checking username availability.";
-  }
-};
+import checkUsernameAvailability from "@/utils/checkUsernameAvailability";
 
 const UsernameForm = () => {
   const { setUser, user } = useContext(UserContext);
@@ -79,7 +55,12 @@ const UsernameForm = () => {
           fullWidth
           {...register("username", {
             required: "Username is required",
-            validate: checkUsernameAvailability,
+            validate: async (value) =>
+              await checkUsernameAvailability(value, user.username),
+            maxLength: {
+              value: 14,
+              message: "Username cannot exceed 14 characters",
+            },
           })}
           error={!!errors.username}
           helperText={
@@ -96,11 +77,13 @@ const UsernameForm = () => {
           multiline
           {...register("bio", {
             required: "Please maintain word limit",
-            validate: (value) => {
-              const charCount = value.trim().length;
-              return charCount >= 30 && charCount <= 120
-                ? true
-                : "Bio must be between 30 and 120 characters.";
+            maxLength: {
+              value: 120,
+              message: "Bio must be between 30 and 120 characters.",
+            },
+            minLength: {
+              value: 30,
+              message: "Bio must be between 30 and 120 characters.",
             },
           })}
           error={!!errors.bio}

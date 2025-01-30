@@ -23,7 +23,6 @@ export default function Google() {
       const user = result.user;
 
       const token = await user.getIdToken();
-      await axios.post("/api/storeToken", { accessToken: token });
 
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkuser`,
@@ -36,11 +35,13 @@ export default function Google() {
       );
 
       if (res.data.success) {
+        await axios.post("/api/storeToken", { accessToken: token });
         setAuthLoading(false);
         router.push("/");
       } else {
         setUser({ email: user.email, photoURL: user.photoURL });
         setAuthLoading(false);
+        await axios.post("/api/storeToken", { accessToken: token });
         router.push("/getusernameandbio");
       }
     } catch (error) {

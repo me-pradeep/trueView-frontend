@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState} from "react";
 import Image from "next/image";
 import axios from "axios";
 import { Skeleton } from "@mui/material";
-import { SelectedUserContext } from "@/context";
 import EditProfile from "./EditProfile";
 
 function Profile({ username }) {
-  const { selectedUser } = useContext(SelectedUserContext);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-
+  const [loggedInUserprofileUpdated,setProfileUpdated]=useState(false);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -47,7 +45,7 @@ function Profile({ username }) {
     };
 
     fetchUserData();
-  }, [username, selectedUser]);
+  }, [username,loggedInUserprofileUpdated]);
 
   if (loading) {
     return (
@@ -105,7 +103,7 @@ function Profile({ username }) {
           <div className="w-[90%] max-md:w-[70%] flex gap-2 flex-col">
             <div className="font-bold text-xl text-white w-fit gap-x-2 flex items-center flex-wrap">
               {displayUsername}
-              <EditProfile /> 
+              <EditProfile setProfileUpdated={setProfileUpdated}/>
             </div>
             <div className="text-white break-words m-1">{bio}</div>
           </div>
