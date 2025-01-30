@@ -16,13 +16,6 @@ export async function POST(req) {
       return NextResponse.json({ error: "No file provided",success:false }, { status: 400 });
     }
 
-     // Check the MIME type of the uploaded file to ensure it is an image
-     const mimeType = file.type;
-
-     if (!mimeType.startsWith("image/")) {
-       return NextResponse.json({ message: "Only image files are allowed",success:false }, { status: 400 });
-     }
-
     // Convert file into a buffer
     const bytes = await file.arrayBuffer();
     const base64String = Buffer.from(bytes).toString("base64");
