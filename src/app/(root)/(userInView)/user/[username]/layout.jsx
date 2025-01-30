@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import Profile from "@/components/Profile";
-import { UserContext } from "@/context";
+import { UserContext } from "@/context/Usercontext";
 import { useContext } from "react";
 import { useRouter, useParams } from "next/navigation";
 import LinearProgress from "@mui/material/LinearProgress";
 import axios from "axios";
-import { SelectedUserContext } from "@/context";
+import { SelectedUserContext } from "@/context/Usercontext";
 
 function Layout({ children }) {
   const [isLoading, setIsLoading] = useState(true);

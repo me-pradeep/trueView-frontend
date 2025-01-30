@@ -4,7 +4,7 @@ import React, { useState, useContext, useEffect } from "react";
 import RatingComponent from "@/components/rating";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { SelectedUserContext, UserContext } from "@/context";
+import { SelectedUserContext, UserContext } from "@/context/Usercontext";
 import Switch from "@mui/material/Switch";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";

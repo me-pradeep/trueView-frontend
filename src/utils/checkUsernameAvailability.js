@@ -1,14 +1,11 @@
 import axios from "axios";
 
-const checkUsernameAvailability = async (username, alreadyUsername) => {
+const checkUsernameAvailability = async (username, alreadyUsername,accessToken) => {
   if (alreadyUsername === username) {
     return true;
   }
 
   try {
-    const res1 = await axios.post("/api/getToken");
-    const accessToken = res1.data.accessToken;
-
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/checkusernameavailibilty`,
       { username },

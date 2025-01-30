@@ -6,12 +6,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/context";
+import { UserContext } from "@/context/Usercontext";
 import { useContext } from "react";
 import checkUsernameAvailability from "@/utils/checkUsernameAvailability";
+import { Authcontext } from "@/context/Authcontext";
 
 const UsernameForm = () => {
   const { setUser, user } = useContext(UserContext);
+  const {accessToken}=useContext(Authcontext);
   const router = useRouter();
   const { email, photoURL } = user;
 
@@ -26,8 +28,6 @@ const UsernameForm = () => {
     username = username.trim().replace(/\s+/g, " ");
     const bio = data.bio;
     if (email) {
-      const res1 = await axios.post("/api/getToken");
-      const accessToken = res1.data.accessToken;
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/createuser`,
         { username, email, photoURL, bio },
@@ -38,6 +38,7 @@ const UsernameForm = () => {
           withCredentials: true,
         }
       );
+      await axios.post("/api/storeToken", { accessToken});
       router.push("/");
     } else {
       alert("Invalid Process");
@@ -56,7 +57,7 @@ const UsernameForm = () => {
           {...register("username", {
             required: "Username is required",
             validate: async (value) =>
-              await checkUsernameAvailability(value, user.username),
+              await checkUsernameAvailability(value, user.username,accessToken),
             maxLength: {
               value: 14,
               message: "Username cannot exceed 14 characters",

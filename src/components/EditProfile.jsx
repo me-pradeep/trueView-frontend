@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { usePathname } from "next/navigation";
-import { UserContext } from "@/context";
+import { UserContext } from "@/context/Usercontext";
 import {
   TextField,
   Dialog,
@@ -24,6 +24,16 @@ export default function EditProfile({ setProfileUpdated }) {
   const profileRef = useRef(null);
   const pathname = usePathname();
   const { user, setUser } = useContext(UserContext);
+  const [accessToken, setAccessToken] = useState();
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const res1 = await axios.post("/api/getToken");
+      const accessToken = res1.data.accessToken;
+      setAccessToken(accessToken);
+    };
+    fetchAccessToken();
+  });
 
   const {
     register,
@@ -50,7 +60,7 @@ export default function EditProfile({ setProfileUpdated }) {
   const compressImage = async (file) => {
     try {
       const options = {
-        maxSizeMB: 1, 
+        maxSizeMB: 1,
         maxWidthOrHeight: 800,
         useWebWorker: true,
       };
@@ -169,7 +179,11 @@ export default function EditProfile({ setProfileUpdated }) {
               {...register("username", {
                 required: "Username is required",
                 validate: async (value) =>
-                  await checkUsernameAvailability(value, user.username),
+                  await checkUsernameAvailability(
+                    value,
+                    user.username,
+                    accessToken
+                  ),
                 maxLength: {
                   value: 14,
                   message: "Username cannot exceed 14 characters",
@@ -205,11 +219,12 @@ export default function EditProfile({ setProfileUpdated }) {
               }
             />
           </DialogContent>
-          <DialogActions>
+          <div className="float-right mr-4">
             <Button type="submit" disabled={loading} color="primary">
               {loading ? "Saving..." : "Save"}
             </Button>
-          </DialogActions>
+            <Button color="secondary" onClick={handleClose}>Cancel</Button>
+          </div>
         </form>
       </Dialog>
     </>

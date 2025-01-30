@@ -5,11 +5,13 @@ import { app } from "@/lib/firebaseconfig";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { UserContext} from "@/context";
+import { UserContext} from "@/context/Usercontext";
 import LinearProgress from "@mui/material/LinearProgress";
+import { Authcontext } from "@/context/Authcontext";
 
 export default function Google() {
   const { setUser } = useContext(UserContext);
+  const {setAccessToken}=useContext(Authcontext);
   const router = useRouter();
   const [authLoading, setAuthLoading] = useState(false);
 
@@ -41,7 +43,7 @@ export default function Google() {
       } else {
         setUser({ email: user.email, photoURL: user.photoURL });
         setAuthLoading(false);
-        await axios.post("/api/storeToken", { accessToken: token });
+        setAccessToken(token)
         router.push("/getusernameandbio");
       }
     } catch (error) {

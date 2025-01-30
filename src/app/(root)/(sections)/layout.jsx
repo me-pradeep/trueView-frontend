@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useContext } from "react";
-import { UserContext } from "@/context";
+import { UserContext } from "@/context/Usercontext";
 import { useEffect } from "react";
 import axios from "axios";
 import Profile from "@/components/Profile";
