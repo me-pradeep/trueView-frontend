@@ -110,7 +110,7 @@ export default function EditProfile({setProfileUpdated}) {
             <input
               type="file"
               ref={profileRef}
-              accept="image/*"
+              // accept="image/*"
               className="hidden"
               onChange={(event) => {
                 const file = event.target.files[0];
