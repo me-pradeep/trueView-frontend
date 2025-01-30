@@ -13,8 +13,9 @@ import Image from "next/image";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import checkUsernameAvailability from "@/utils/checkUsernameAvailability";
+import imageCompression from "browser-image-compression";
 
-export default function EditProfile({setProfileUpdated}) {
+export default function EditProfile({ setProfileUpdated }) {
   const [profileEditable, setProfileEditable] = useState(true);
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState(null);
@@ -22,7 +23,7 @@ export default function EditProfile({setProfileUpdated}) {
   const [loading, setLoading] = useState(false);
   const profileRef = useRef(null);
   const pathname = usePathname();
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const {
     register,
@@ -46,14 +47,31 @@ export default function EditProfile({setProfileUpdated}) {
     setOpen(false);
   };
 
+  const compressImage = async (file) => {
+    try {
+      const options = {
+        maxSizeMB: 1, 
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      };
+      return await imageCompression(file, options);
+    } catch (error) {
+      console.error("Image compression error:", error);
+      return file;
+    }
+  };
+
   const handleUpload = async (data) => {
     setLoading(true);
     let imgURL = user.photoURL;
 
     try {
       if (image) {
+        const compressedImage = await compressImage(image);
+
         const formData = new FormData();
-        formData.append("file", image);
+        formData.append("file", compressedImage);
+
         const res = await axios.post("/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -65,9 +83,9 @@ export default function EditProfile({setProfileUpdated}) {
 
       const res2 = await axios.post("/api/getToken");
       const accessToken = res2.data.accessToken;
-      let newUsername = data.username.toUpperCase();
-      newUsername = newUsername.trim().replace(/\s+/g, " ");
-      const res = await axios.post(
+      let newUsername = data.username.toUpperCase().trim().replace(/\s+/g, " ");
+
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/updateuserinfo`,
         { username: newUsername, bio: data.bio, photoURL: imgURL },
         {
@@ -75,10 +93,16 @@ export default function EditProfile({setProfileUpdated}) {
           withCredentials: true,
         }
       );
-      setUser((previous)=>({...previous,username:newUsername,bio:data.bio,photoURL:imgURL}));
-      setProfileUpdated((previous)=>(!previous));
+
+      setUser((previous) => ({
+        ...previous,
+        username: newUsername,
+        bio: data.bio,
+        photoURL: imgURL,
+      }));
+      setProfileUpdated((previous) => !previous);
     } catch (error) {
-      alert("cannot update profile");
+      alert("Cannot update profile");
       console.error("Error updating profile:", error);
     }
     setLoading(false);
