@@ -20,7 +20,7 @@ function layout({ children }) {
                 alt="TrueView"
                 style={{ width: "auto", height: "auto" }}
               />
-              TrueView
+              Secrate
             </div>
             <div className="flex gap-4 items-center">
               <Search />

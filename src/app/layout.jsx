@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TrueView",
+  title: "Secrate",
   description: "Curious to discover what people really think about you?",
 };
 
