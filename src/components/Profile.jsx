@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState,useContext} from "react";
 import Image from "next/image";
 import axios from "axios";
 import { Skeleton } from "@mui/material";
 import EditProfile from "./EditProfile";
+import { SelectedUserContext } from "../context/Usercontext";
 
 function Profile({ username }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [loggedInUserprofileUpdated,setProfileUpdated]=useState(false);
+  const {selectedUser}=useContext(SelectedUserContext);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -45,7 +47,7 @@ function Profile({ username }) {
     };
 
     fetchUserData();
-  }, [username,loggedInUserprofileUpdated]);
+  }, [username,loggedInUserprofileUpdated,selectedUser]);
 
   if (loading) {
     return (
