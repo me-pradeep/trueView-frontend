@@ -47,7 +47,7 @@ function Profile({ username }) {
     };
 
     fetchUserData();
-  }, [username,loggedInUserprofileUpdated,selectedUser]);
+  }, [username,loggedInUserprofileUpdated,selectedUser]);//selectedUser is here becuase when rating changes then profile component re-renders
 
   if (loading) {
     return (

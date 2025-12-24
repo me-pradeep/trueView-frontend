@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogContent,
   Button,
-  DialogActions,
 } from "@mui/material";
 import Image from "next/image";
 import axios from "axios";
