@@ -1,6 +1,6 @@
 "use client"
 import React, { useState ,useEffect} from "react";
-import algoliasearch from "algoliasearch/lite";
+import {algoliasearch} from "algoliasearch";
 import {
   Autocomplete,
   TextField,
